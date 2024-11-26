@@ -1,0 +1,26 @@
+G={N,E,P,S}
+N={"program","stmt_list","stmt","decl_stmt","assign_stmt","expression","term","factor","io_stmt","if_stmt","for_stmt"
+"expr_stmt","condition","rel_op"}
+
+E={ "<" , "<=" , "==" , ">" , ">=","cin,"cout","int","do","else","if","while","for","break","endl","include","using", "namespace","std"
+"#","%","int","identifier"}
+
+S=program
+
+P={
+
+program-> 'include' 'iostream' ';' 'using namespace' 'std' ';' 'int' 'main' '(' ')' '{' 'stmt_list' '}'
+stmt_list-> stmt stmt_list|epsilon
+stmt -> decl_stmt | assign_stmt| io_stmt| if_stmt| for_stmt| expr_stmt
+decl_stmt -> 'int' 'identifier'
+assign_stmt -> 'identifier' '=' expression 
+expression -> term|term '+' expression
+term-> factor | factor "%" term
+factor -> int | identifier| expression 
+
+io_stmt -> 'cin' '>>' identifier | 'cout' '<<' identifier|| 'cout' '<<' endl|'cout' '<<'
+if_stmt -> if '(' condition ')' '{' stmt_list '}; '[' 'else' '{' stmt_list '}' ']'
+for_stmt -> for '(' assign_stmt ';' condition ';' assign_stmt ')' '{' stmt_list '}'
+expr_stmt -> expression|epsilon
+condition ->expression rel_op expression 
+rel_op -> '<' '<=' '==' '>' '>=' 

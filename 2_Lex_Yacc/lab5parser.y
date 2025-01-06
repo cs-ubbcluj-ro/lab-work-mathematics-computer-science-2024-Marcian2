@@ -7,11 +7,11 @@
 extern int yylineno;
 extern char* yytext;
 
-int productions_used[100];
-int production_count = 0;
+void yyerror(const char* s);
 int yylex(void);
 
-void yyerror(const char* s);
+int productions_used[100];
+int production_count = 0;
 
 void add_production(int index) {
     if (production_count < 100) {
@@ -26,7 +26,6 @@ void print_productions() {
     }
     printf("\n");
 }
-
 %}
 
 %union {
@@ -45,13 +44,11 @@ void print_productions() {
 
 %%
 program:
+    { add_production(1); }
     DIEZ INCLUDE LESS IOSTREAM GREATER USING NAMESPACE STD SEMICOLON INT MAIN LPAREN RPAREN LBRACE stmt_list RBRACE {
-        printf("Parsing completed successfully.\n");
         print_productions();
     }
-    { add_production(1); }
     ;
-
 stmt_list:
     stmt stmt_list { add_production(2); }
     | /* empty */ { add_production(3); }
@@ -111,7 +108,7 @@ if_stmt:
     IF LPAREN condition RPAREN LBRACE stmt_list RBRACE { add_production(30); }
     | IF LPAREN condition RPAREN LBRACE stmt_list RBRACE ELSE LBRACE stmt_list RBRACE { add_production(31); }
     ;
-
+    
 for_stmt:
     FOR LPAREN assign_stmt SEMICOLON condition SEMICOLON assign_stmt RPAREN LBRACE stmt_list RBRACE { add_production(32); }
     ;

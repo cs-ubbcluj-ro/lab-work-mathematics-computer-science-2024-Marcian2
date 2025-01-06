@@ -4,16 +4,14 @@
 #include <string.h>
 #define YYDEBUG 1
 
-/* External declarations */
 extern int yylineno;
 extern char* yytext;
 
-void yyerror(const char* s);
-int yylex(void);
-
-// Array to track production indexes
 int productions_used[100];
 int production_count = 0;
+int yylex(void);
+
+void yyerror(const char* s);
 
 void add_production(int index) {
     if (production_count < 100) {
@@ -28,6 +26,7 @@ void print_productions() {
     }
     printf("\n");
 }
+
 %}
 
 %union {
